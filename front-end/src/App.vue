@@ -1,14 +1,33 @@
 <template>
   <div id="app">
+    <Header />
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
+<script>
+import Header from '@/components/layout/Header'
+
+export default {
+  name: 'App',
+  components: {
+    Header
+  },
+
+  setup () {
+    return { }
+  }
+}
+</script>
+
 <style lang="scss">
+@import "src/css/app.variables.scss";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
