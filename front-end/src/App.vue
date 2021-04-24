@@ -27,7 +27,14 @@ export default {
 </script>
 
 <style lang="scss">
-@import "src/css/app.variables.scss";
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  line-height: 1;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
