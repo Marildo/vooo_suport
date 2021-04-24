@@ -5,8 +5,8 @@
       <ul>
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/about">Clientes</router-link></li>
-        <li><router-link to="/">Conectores</router-link></li>
-        <li><router-link to="/">Monitoramento</router-link></li>
+        <li><router-link to="/conectores">Conectores</router-link></li>
+        <li><router-link to="/monitoramento">Monitoramento</router-link></li>
       </ul>
     </nav>
   </header>
@@ -37,22 +37,25 @@ nav ul {
 nav ul li {
   display: inline;
   text-align: center;
-  margin:  0.1em 0.2em;
+  margin: 0.1em 0.2em;
 }
 
 nav ul li a {
   background-color: #42618a;
-  box-shadow: 0px 0px 3px 1px rgba(152,193,217,0.38);
+  box-shadow: $shadow;
   color: $light;
   padding: 0.8em;
   text-decoration: none;
   display: inline-block;
   width: 100px;
+
+  &.router-link-exact-active {
+    border-bottom: 1px $accent solid;
+  }
 }
 
 nav ul li a:hover {
   background-color: $light;
   color: #42618a;
-  border-bottom: 1px $accent solid;
 }
 </style>
