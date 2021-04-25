@@ -1,7 +1,7 @@
 import logging
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm.session import sessionmaker
+from sqlalchemy.orm.session import sessionmaker, Session
 
 from settings.settings import Settings
 
@@ -9,16 +9,16 @@ from settings.settings import Settings
 class DBConnection:
 
     def __init__(self):
-        self.__session: sessionmaker = None
+        self.__session: Session = None
 
     def connect(self, settings: Settings):
         url = self.__get_url(settings)
         engine = create_engine(url, pool_timeout=settings.get_database_timeout(), echo=settings.get_debug())
-        self.__session = sessionmaker(bind=engine)
+        self.__session = sessionmaker(bind=engine)()
         logging.info(f'Conectado ao banco de dados...')
 
     @property
-    def session(self) -> sessionmaker:
+    def session(self) -> Session:
         return self.__session
 
     def __get_url(self, settings) -> str:
