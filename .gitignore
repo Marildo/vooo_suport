@@ -2,3 +2,5 @@
  */node_modules
 .idea
 */venv
+*/.env
+api/settings/.env
