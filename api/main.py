@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Flask, jsonify
 
 from settings.settings import Settings
+from model.Connection import DBConnection
 
 app = Flask('Api-vooo-suport')
 
@@ -14,5 +15,6 @@ def index():
 
 if __name__ == '__main__':
     settings = Settings()
-    app.run(debug=settings.get_debug(),
-            port=settings.get_port())
+    connection = DBConnection()
+    connection.connect(settings)
+    app.run(debug=settings.get_debug(), port=settings.get_api_port())
