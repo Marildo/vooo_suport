@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
 import os
 from settings.logger import config_logger
+from decorators.singleton import singleton
 
 
+@singleton
 class Settings:
     def __init__(self):
         load_dotenv()
