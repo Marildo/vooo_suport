@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker, Session
 
 
-from settings.settings import Settings
+from settings.Settings import Settings
 from decorators.singleton import singleton
 
 

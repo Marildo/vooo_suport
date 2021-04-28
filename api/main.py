@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import Flask, jsonify, make_response
 from model.marshmallowConfig import init_marshmallow
-from settings.settings import Settings
+from settings.Settings import Settings
 from routers.clientRouter import client_router
 
 
