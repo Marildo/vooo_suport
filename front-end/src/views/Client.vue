@@ -2,20 +2,31 @@
   <div>
     <h1>Clientes</h1>
     <button @click="loadClients()">Load</button>
-
-    {{ state.clients }}
+    <div>
+      <DataTable :value="state.clients" responsiveLayout="scroll" showGridlines>
+        <Column field="id" header="Id"></Column>
+        <Column field="name" header="Name" aling=""></Column>
+      </DataTable>
+    </div>
   </div>
 </template>
 
 <script>
 import { onMounted, reactive } from 'vue'
 import axios from 'axios'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 export default {
   name: 'Client',
+  components: {
+    DataTable,
+    Column
+  },
+
   setup () {
     onMounted(() => {
-      loadClients()
+      // loadClients()
     })
 
     const state = reactive({
