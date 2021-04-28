@@ -1,2 +1,7 @@
  */venv/
 /front-end/node_modules/
+.idea
+*/venv
+*/.env
+api/settings/.env
+__pycache__/
