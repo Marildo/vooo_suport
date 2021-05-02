@@ -48,7 +48,7 @@ nav ul li a {
   padding: 0.8em;
   text-decoration: none;
   display: inline-block;
-  width: 100px;
+  width: 130px;
 
   &.router-link-exact-active {
     border-bottom: 1px $accent solid;
