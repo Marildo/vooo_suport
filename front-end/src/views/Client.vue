@@ -1,5 +1,5 @@
 <template>
-  <Toolbar>
+  <p-toolbar>
     <template #right>
       <InputText
         type="text"
@@ -16,7 +16,7 @@
         @click="toSearch()"
       />
     </template>
-  </Toolbar>
+  </p-toolbar>
   <div>
     <h1>Clientes</h1>
     <button @click="loadClients()">Load</button>
@@ -36,7 +36,6 @@
 <script>
 import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
-import Toolbar from 'primevue/toolbar'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -46,7 +45,6 @@ export default {
   components: {
     DataTable,
     Column,
-    Toolbar,
     InputText
   },
 
