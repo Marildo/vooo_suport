@@ -1,8 +1,7 @@
-from model.connection import DBConnection
+from model.DBConnection import DBConnection
 from model.schemas import ClientSchema
 from model.tables import Client
-from settings.settings import Settings
-
+from settings.Settings import Settings
 
 class ClientController:
 
