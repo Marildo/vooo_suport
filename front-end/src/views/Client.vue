@@ -1,7 +1,7 @@
 <template>
   <p-toolbar>
     <template #right>
-      <InputText
+      <p-inputText
         type="text"
         v-model="search"
         placeholder="Search"
@@ -21,14 +21,14 @@
     <h1>Clientes</h1>
     <button @click="loadClients()">Load</button>
     <div>
-      <DataTable :value="state.clients" responsiveLayout="scroll" showGridlines>
-        <Column
+      <p-dataTable :value="state.clients" responsiveLayout="scroll" showGridlines>
+        <p-column
           v-for="col in columns"
           :key="col.id"
           :field="col.field"
           :header="col.title"
-        ></Column>
-      </DataTable>
+        ></p-column>
+      </p-dataTable>
     </div>
   </div>
 </template>
@@ -36,16 +36,11 @@
 <script>
 import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
-import InputText from 'primevue/inputtext'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 
 export default {
   name: 'Client',
   components: {
-    DataTable,
-    Column,
-    InputText
+
   },
 
   setup () {
