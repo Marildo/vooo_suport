@@ -7,6 +7,7 @@ import Toolbar from 'primevue/toolbar'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import Paginator from 'primevue/paginator'
 
 const primeInit = app => {
   app.use(PrimeVue)
@@ -15,5 +16,6 @@ const primeInit = app => {
   app.component('p-inputText', InputText)
   app.component('p-dataTable', DataTable)
   app.component('p-column', Column)
+  app.component('p-paginator', Paginator)
 }
 export default primeInit

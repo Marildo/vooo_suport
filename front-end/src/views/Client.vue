@@ -3,8 +3,8 @@
     <template #right>
       <p-inputText
         type="text"
-        v-model="search"
-        placeholder="Search"
+        v-model="state.search"
+        placeholder="Id | CNPJ| Nome | EC "
         class="input_search"
       />
 
@@ -19,9 +19,13 @@
   </p-toolbar>
   <div>
     <h1>Clientes</h1>
-    <button @click="loadClients()">Load</button>
+    <button @click="loadClients({page:3})">Load</button>
     <div>
-      <p-dataTable :value="state.clients" responsiveLayout="scroll" showGridlines>
+      <p-dataTable
+        :value="state.clients"
+        responsiveLayout="scroll"
+        showGridlines
+      >
         <p-column
           v-for="col in columns"
           :key="col.id"
@@ -29,30 +33,43 @@
           :header="col.title"
         ></p-column>
       </p-dataTable>
+      <p-paginator
+        v-model:first="state.first"
+        :rows="limit"
+        :totalRecords="state.totalClients"
+        @page="loadClients($event)"
+      >
+          <template #right="slotProps">
+        Page: {{slotProps.state.page}}
+        First: {{slotProps.state.first}}
+        Rows: {{slotProps.state.rows}}
+        Total: {{state.totalClients}}
+    </template>
+      </p-paginator>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import axios from 'axios'
 
 export default {
   name: 'Client',
-  components: {
-
-  },
+  components: {},
 
   setup () {
-    const search = ref('')
-
     onMounted(() => {
-      loadClients()
+      loadClients({ page: 0 })
     })
 
+    const limit = 10
+
     const state = reactive({
+      search: '',
       clients: [],
-      inputIcon: 'pi pi-search'
+      inputIcon: 'pi pi-search',
+      totalClients: 0
     })
 
     const columns = [
@@ -60,28 +77,30 @@ export default {
       { field: 'name', title: 'Nome' }
     ]
 
-    function loadClients () {
-      console.log('clicked')
+    function loadClients (event) {
+      const { page } = event
+      const url = 'http://127.0.0.1:4000/client'
       axios
-        .get('http://127.0.0.1:4000/client')
+        .get(url, { params: { page, limit } })
         .then(response => response.data)
-        .then(data => (state.clients = data))
+        .then(response => {
+          state.clients = response.data
+          state.totalClients = response.total
+        })
         .catch(erros => console.log(erros))
     }
 
     function toSearch () {
-      console.log('inputIcon: ', state.inputIcon)
       state.inputIcon = 'pi pi-spin pi-spinner'
       setTimeout(() => (state.inputIcon = 'pi pi-search'), 1000)
-      console.log('inputIcon: ', state.inputIcon)
     }
 
     return {
       state,
       columns,
+      limit,
       loadClients,
-      toSearch,
-      search
+      toSearch
     }
   }
 }
@@ -90,5 +109,6 @@ export default {
 <style scoped>
 .input_search {
   width: 30vw;
+  margin-right: 0.5em;
 }
 </style>
