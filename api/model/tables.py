@@ -7,6 +7,7 @@ Base = declarative_base()
 
 class Client(Base):
     __tablename__ = 'Client'
+    __abstract__ = True
     id = Column(INTEGER(unsigned=True), primary_key=True)
     id_address = Column(INTEGER(unsigned=True))
     id_contact = Column(INTEGER(unsigned=True))

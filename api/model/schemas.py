@@ -1,4 +1,4 @@
-from model.marshmallowConfig import marsh
+from model.marshmallow_config import marsh
 from model.tables import Client
 
 
