@@ -6,7 +6,6 @@ from settings.Settings import Settings
 from routers.clientRouter import client_router
 
 
-
 app = Flask('Api-vooo-suport')
 app.config['CORS_HEADERS'] = 'application/json'
 
