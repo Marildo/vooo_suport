@@ -17,9 +17,10 @@ class Client(Base):
     status = Column(TINYINT, nullable=False)
     id_document = Column(INTEGER(unsigned=True), ForeignKey('document.id'), nullable=False)
     document = relationship('Document')
+    id_aggregator = Column(INTEGER(unsigned=True), ForeignKey('aggregator.id'))
+    aggregator = relationship('Aggregator')
     created_at = Column(TIMESTAMP, nullable=False)
     updated_at = Column(TIMESTAMP, nullable=False)
-
 
 
 class Document(Base):
@@ -29,3 +30,7 @@ class Document(Base):
     number = Column(DECIMAL(20), nullable=False)
 
 
+class Aggregator(Base):
+    __tablename__ = 'aggregator'
+    id = Column(INTEGER(unsigned=True), primary_key=True)
+    name = Column(String(255), nullable=False)
