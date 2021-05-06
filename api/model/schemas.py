@@ -1,8 +1,17 @@
 from model.marshmallow_config import marsh
-from model.tables import Client
+from marshmallow import fields
+
+
+class DocumentSchema(marsh.Schema):
+    type = fields.Str()
+    number = fields.Str()
 
 
 class ClientSchema(marsh.Schema):
-    class Meta:
-        model = Client
-        fields = ('id', 'name', 'trand')
+    id = fields.Integer(required=True)
+    name = fields.Str()
+    document = fields.Nested('DocumentSchema')
+
+
+
+

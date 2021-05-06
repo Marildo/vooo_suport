@@ -11,7 +11,13 @@ class ClientController:
 
     def read_all(self, limit: int = 500, offset: int = 0):
         total = self.__connection.session.query(Client).count()
-        clients = self.__connection.session.query(Client).limit(limit).offset(offset).all()
+        clients = self.__connection.session.query(Client)\
+            .limit(limit)\
+            .offset(offset)\
+            .all()
         cs = ClientSchema(many=True)
         data = cs.dump(clients)
+
         return {'total': total, 'data': data}
+
+# .join(Document, Client.id_document == Document.id)\
