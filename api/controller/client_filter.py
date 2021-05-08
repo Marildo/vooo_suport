@@ -39,12 +39,24 @@ class ClientFilterFactory:
         def get_filter(search: str):
             return ClientConnector.contract_code == search
 
+    class FilterByHeadquarterId(ClientFilter):
+        @staticmethod
+        def get_filter(search: str):
+            return Client.headquarter_id == search
+
+    class FilterByConnectorId(ClientFilter):
+        @staticmethod
+        def get_filter(search: str):
+            return ClientConnector.connector_id == search
+
     __map_class = {
         0: FilterNome,
         1: FilterById,
-        2: FilterByName,
-        3: FilterByDocument,
+        2: FilterByDocument,
+        3: FilterByName,
         4: FilterByEC,
+        5: FilterByHeadquarterId,
+        6: FilterByConnectorId
     }
 
     def get_filter(self):

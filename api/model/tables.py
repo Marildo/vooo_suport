@@ -19,6 +19,7 @@ class Client(Base):
     document = relationship('Document')
     id_aggregator = Column(INTEGER(unsigned=True), ForeignKey('aggregator.id'))
     aggregator = relationship('Aggregator')
+    headquarter_id = Column(INTEGER(unsigned=True))
     created_at = Column(TIMESTAMP, nullable=False)
     updated_at = Column(TIMESTAMP, nullable=False)
 
