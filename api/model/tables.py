@@ -34,3 +34,10 @@ class Aggregator(Base):
     __tablename__ = 'aggregator'
     id = Column(INTEGER(unsigned=True), primary_key=True)
     name = Column(String(255), nullable=False)
+
+
+class ClientConnector(Base):
+    __tablename__ = 'client_connector'
+    client_id = Column(INTEGER(unsigned=True), primary_key=True)
+    connector_id = Column(INTEGER(unsigned=True),  primary_key=True)
+    contract_code = Column(DECIMAL(15), nullable=False)

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from model.tables import Client, Document
+from model.tables import Client, Document, ClientConnector
 
 
 class ClientFilterFactory:
@@ -34,11 +34,17 @@ class ClientFilterFactory:
         def get_filter(search: str):
             return Document.number == search
 
+    class FilterByEC(ClientFilter):
+        @staticmethod
+        def get_filter(search: str):
+            return ClientConnector.contract_code == search
+
     __map_class = {
         0: FilterNome,
         1: FilterById,
         2: FilterByName,
         3: FilterByDocument,
+        4: FilterByEC,
     }
 
     def get_filter(self):

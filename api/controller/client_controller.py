@@ -2,7 +2,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 from model.db_connection import DBConnection
 from model.schemas import ClientSchema
-from model.tables import Client,Document
+from model.tables import Client, Document, ClientConnector
 from settings.settings import Settings
 from controller.client_filter import ClientFilterFactory
 
@@ -26,6 +26,7 @@ class ClientController:
         query = self.__connection.session \
             .query(Client).filter(_filter) \
             .join(Document, Document.id == Client.id_document)\
+            .outerjoin(ClientConnector, ClientConnector.client_id == Client.id)\
             .limit(limit).offset(offset)
 
         clients = query.all()
