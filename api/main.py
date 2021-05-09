@@ -4,6 +4,7 @@ from flask_cors import CORS
 from model.marshmallow_config import init_marshmallow
 from settings.settings import Settings
 from routers.client_router import client_router
+from routers.connector_router import connector_router
 
 
 app = Flask('Api-vooo-suport')
@@ -17,6 +18,7 @@ cors = CORS(app,
             })
             
 app.register_blueprint(client_router)
+app.register_blueprint(connector_router)
 
 
 @app.route('/')

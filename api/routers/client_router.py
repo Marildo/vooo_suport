@@ -2,11 +2,13 @@ from flask import Blueprint, make_response, request, abort
 
 from controller.client_controller import ClientController
 
-client_router = Blueprint('client_router', __name__)
+client_router = Blueprint(name=__name__, import_name=__name__, url_prefix='/client')
 
 
-@client_router.route('/client/', methods=['GET'])
-def client():
+# TODO criar um decorator para tratar execoes nos endpoints
+
+@client_router.route('/', methods=['GET'])
+def clients():
     try:
         client_controller = ClientController()
         response = client_controller.read_all(request.args)

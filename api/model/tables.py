@@ -1,5 +1,5 @@
-from sqlalchemy import  Column, String, TIMESTAMP, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER, TINYINT,DECIMAL
+from sqlalchemy import Column, String, TIMESTAMP, ForeignKey
+from sqlalchemy.dialects.mysql import INTEGER, TINYINT, DECIMAL, DATETIME
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -40,5 +40,27 @@ class Aggregator(Base):
 class ClientConnector(Base):
     __tablename__ = 'client_connector'
     client_id = Column(INTEGER(unsigned=True), primary_key=True)
-    connector_id = Column(INTEGER(unsigned=True),  primary_key=True)
+    connector_id = Column(INTEGER(unsigned=True), primary_key=True)
     contract_code = Column(DECIMAL(15), nullable=False)
+
+
+class Connector(Base):
+    __tablename__ = 'connector'
+    connector_id = Column(INTEGER(unsigned=True), primary_key=True)
+    connector_type_id = Column(INTEGER(unsigned=True),ForeignKey('connector_type.connector_type_id'), nullable=False)
+    provider_id = Column(INTEGER(unsigned=True), nullable=False)
+    name = Column(String(75), nullable=False)
+    description = Column(String(150))
+    periodicity = Column(String(1), nullable=False)
+    periodicity_last_datetime = Column(DATETIME)
+    external_code_id = Column(INTEGER(unsigned=True))
+    periodicity_week_day = Column(DECIMAL(1, 0))
+    working_days = Column(DECIMAL(1, 0))
+    type = relationship('ConnectorType', enable_typechecks=False)
+
+
+class ConnectorType(Base):
+    __tablename__ = 'connector_type'
+    connector_type_id = Column(INTEGER(unsigned=True), primary_key=True)
+    name = Column(String(75), nullable=False)
+    description = Column(String(150))

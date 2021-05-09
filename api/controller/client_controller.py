@@ -6,6 +6,8 @@ from model.tables import Client, Document, ClientConnector
 from settings.settings import Settings
 from controller.client_filter import ClientFilterFactory
 
+#TODO - Deixa nome de clientes uniforme (Capitalize)
+#TODO - Mascara de cnpj deve ser no front?
 
 class ClientController:
 

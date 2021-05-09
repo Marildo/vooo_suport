@@ -21,6 +21,12 @@ class AggregatorSchema(BaseSchema):
     name = fields.Str()
 
 
+class ConnectorSchema(marsh.Schema):
+    connector_id = fields.Integer(required=True)
+    name = fields.Str()
+    type = fields.Nested('ConnectorTypeSchema')
 
 
-
+class ConnectorTypeSchema(marsh.Schema):
+    connector_type_id = fields.Integer(required=True)
+    name = fields.Str()
