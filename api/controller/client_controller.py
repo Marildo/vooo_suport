@@ -23,12 +23,14 @@ class ClientController:
             limit = None
             offset = None
 
-        query = self.__connection.session \
-            .query(Client).filter(_filter) \
-            .join(Document, Document.id == Client.id_document)\
-            .outerjoin(ClientConnector, ClientConnector.client_id == Client.id)\
-            .limit(limit).offset(offset)
+        def builder_query(_filter):
+            return self.__connection.session \
+                .query(Client).filter(_filter) \
+                .join(Document, Document.id == Client.id_document) \
+                .outerjoin(ClientConnector, ClientConnector.client_id == Client.id) \
+                .group_by(Client.id)
 
+        query = builder_query(_filter).limit(limit).offset(offset)
         clients = query.all()
         cs = ClientSchema(many=True)
         data = cs.dump(clients)
@@ -36,9 +38,6 @@ class ClientController:
         if client_filter.active:
             total = len(data)
         else:
-            total = self.__connection.session\
-               .query(Client).filter(client_filter.get_filter()).count()
+            total = builder_query(_filter).count()
 
         return {'total': total, 'data': data}
-
-# .join(Document, Client.id_document == Document.id)
