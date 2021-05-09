@@ -1,10 +1,18 @@
 <template>
-  <Toolbar>
+  <p-toolbar>
     <template #right>
-      <InputText
+      <p-combobox
+        v-model="state.selectedsearchTypes"
+        :options="searchTypes"
+        optionLabel="name"
+        optionvalue="code"
+        class="combo_type"
+      >
+      </p-combobox>
+      <p-inputText
         type="text"
-        v-model="search"
-        placeholder="Search"
+        v-model="state.search"
+        placeholder="Digite sua busca"
         class="input_search"
       />
 
@@ -16,79 +24,110 @@
         @click="toSearch()"
       />
     </template>
-  </Toolbar>
+  </p-toolbar>
   <div>
     <h1>Clientes</h1>
-    <button @click="loadClients()">Load</button>
+    <button @click="loadClients({ page: 3 })">Load</button>
     <div>
-      <DataTable :value="state.clients" responsiveLayout="scroll" showGridlines>
-        <Column
+      <p-dataTable
+        :value="state.clients"
+        responsiveLayout="scroll"
+        showGridlines
+      >
+        <p-column
           v-for="col in columns"
           :key="col.id"
           :field="col.field"
           :header="col.title"
-        ></Column>
-      </DataTable>
+        ></p-column>
+      </p-dataTable>
+      <p-paginator v-if="state.pagination"
+        v-model:first="state.first"
+        :rows="limit"
+        :totalRecords="state.totalClients"
+        @page="loadClients($event)"
+      >
+        <template #right="slotProps">
+          Page: {{ slotProps.state.page }} First:
+          {{ slotProps.state.first }} Rows: {{ slotProps.state.rows }} Total:
+          {{ state.totalClients }}
+        </template>
+      </p-paginator>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import axios from 'axios'
-import Toolbar from 'primevue/toolbar'
-import InputText from 'primevue/inputtext'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 
 export default {
   name: 'Client',
-  components: {
-    DataTable,
-    Column,
-    Toolbar,
-    InputText
-  },
+  components: {},
 
   setup () {
-    const search = ref('')
-
-    onMounted(() => {
-      loadClients()
-    })
-
-    const state = reactive({
-      clients: [],
-      inputIcon: 'pi pi-search'
-    })
-
     const columns = [
       { field: 'id', title: 'Id' },
-      { field: 'name', title: 'Nome' }
+      { field: 'name', title: 'Nome' },
+      { field: 'document.number', title: 'CNPJ' },
+      { field: 'aggregator.name', title: 'Agregador' }
     ]
 
-    function loadClients () {
-      console.log('clicked')
+    const searchTypes = [
+      { type: '1', name: 'Id' },
+      { type: '2', name: 'CNPJ' },
+      { type: '3', name: 'Nome' },
+      { type: '4', name: 'EC' },
+      { type: '5', name: 'Matriz' },
+      { type: '6', name: 'Conector' }
+    ]
+
+    let limit = 10
+
+    const state = reactive({
+      search: '',
+      selectedsearchTypes: searchTypes[0],
+      clients: [],
+      inputIcon: 'pi pi-search',
+      totalClients: 0,
+      pagination: true
+    })
+
+    onMounted(() => {
+      limit = 10
+      loadClients({ page: 0 })
+    })
+
+    function loadClients (payload) {
+      const { page, search, type } = payload
+      const url = 'http://127.0.0.1:4000/client'
+      state.inputIcon = 'pi pi-spin pi-spinner'
       axios
-        .get('http://127.0.0.1:4000/client')
-        .then(response => response.data)
-        .then(data => (state.clients = data))
+        .get(url, { params: { page, limit, type, search } })
+        .then(response => {
+          state.clients = response.data.data
+          state.totalClients = response.data.total
+          console.log(response)
+        })
         .catch(erros => console.log(erros))
+        .finally(() => {
+          state.inputIcon = 'pi pi-search'
+        })
     }
 
     function toSearch () {
-      console.log('inputIcon: ', state.inputIcon)
-      state.inputIcon = 'pi pi-spin pi-spinner'
-      setTimeout(() => (state.inputIcon = 'pi pi-search'), 1000)
-      console.log('inputIcon: ', state.inputIcon)
+      state.pagination = false
+      const { type } = state.selectedsearchTypes
+      loadClients({ page: 0, search: state.search, type })
     }
 
     return {
       state,
       columns,
+      searchTypes,
+      limit,
       loadClients,
-      toSearch,
-      search
+      toSearch
     }
   }
 }
@@ -97,5 +136,12 @@ export default {
 <style scoped>
 .input_search {
   width: 30vw;
+  height: 37px;
+  margin-right: 0.5em;
+}
+
+.combo_type{
+  height: 37px;
+  margin-right: 0.5em;
 }
 </style>
