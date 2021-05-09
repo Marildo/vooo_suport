@@ -1,10 +1,9 @@
 from datetime import datetime
 from flask import Flask, jsonify, make_response
 from flask_cors import CORS
-from model.marshmallowConfig import init_marshmallow
-from settings.Settings import Settings
-from routers.clientRouter import client_router
-
+from model.marshmallow_config import init_marshmallow
+from settings.settings import Settings
+from routers.client_router import client_router
 
 
 app = Flask('Api-vooo-suport')

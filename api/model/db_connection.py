@@ -4,9 +4,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker, Session
 
 
-from settings.Settings import Settings
+from settings.settings import Settings
 from decorators.singleton import singleton
 
+
+#TODO - Melhor opção seria ultilizar flask_sqlalchemy, mas por enquanto vamos aprender sqlAlchemy
 
 @singleton
 class DBConnection:
@@ -25,7 +27,8 @@ class DBConnection:
     def session(self) -> Session:
         return self.__session
 
-    def __get_url(self, settings) -> str:
+    @staticmethod
+    def __get_url(settings) -> str:
         user = settings.get_database_user()
         password = settings.get_database_password()
         port = settings.get_database_port()
