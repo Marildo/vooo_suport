@@ -26,8 +26,6 @@
     </template>
   </p-toolbar>
   <div>
-    <h1>Clientes</h1>
-    <button @click="loadClients({ page: 3 })">Load</button>
     <div>
       <p-dataTable
         :value="state.clients"
@@ -41,7 +39,8 @@
           :header="col.title"
         ></p-column>
       </p-dataTable>
-      <p-paginator v-if="state.pagination"
+      <p-paginator
+        v-if="state.pagination"
         v-model:first="state.first"
         :rows="limit"
         :totalRecords="state.totalClients"
@@ -58,14 +57,15 @@
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
-import axios from 'axios'
+import { onMounted, reactive, getCurrentInstance } from 'vue'
 
 export default {
   name: 'Client',
   components: {},
 
   setup () {
+    const axios = getCurrentInstance().appContext.config.globalProperties.$axios()
+
     const columns = [
       { field: 'id', title: 'Id' },
       { field: 'name', title: 'Nome' },
@@ -100,14 +100,12 @@ export default {
 
     function loadClients (payload) {
       const { page, search, type } = payload
-      const url = 'http://127.0.0.1:4000/client'
       state.inputIcon = 'pi pi-spin pi-spinner'
       axios
-        .get(url, { params: { page, limit, type, search } })
+        .get('client', { params: { page, limit, type, search } })
         .then(response => {
           state.clients = response.data.data
           state.totalClients = response.data.total
-          console.log(response)
         })
         .catch(erros => console.log(erros))
         .finally(() => {
@@ -140,7 +138,7 @@ export default {
   margin-right: 0.5em;
 }
 
-.combo_type{
+.combo_type {
   height: 37px;
   margin-right: 0.5em;
 }
