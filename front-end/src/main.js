@@ -12,3 +12,5 @@ app.use(router)
 app.use(axios)
 primeInit(app)
 app.mount('#app')
+
+export default app

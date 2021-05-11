@@ -57,15 +57,14 @@
 </template>
 
 <script>
-import { onMounted, reactive, getCurrentInstance } from 'vue'
+import { onMounted, reactive } from 'vue'
+import { readAllClient } from '@/services/api_services'
 
 export default {
   name: 'Client',
   components: {},
 
   setup () {
-    const axios = getCurrentInstance().appContext.config.globalProperties.$axios()
-
     const columns = [
       { field: 'id', title: 'Id' },
       { field: 'name', title: 'Nome' },
@@ -99,10 +98,7 @@ export default {
     })
 
     function loadClients (payload) {
-      const { page, search, type } = payload
-      state.inputIcon = 'pi pi-spin pi-spinner'
-      axios
-        .get('client', { params: { page, limit, type, search } })
+      readAllClient({ ...payload, limit })
         .then(response => {
           state.clients = response.data.data
           state.totalClients = response.data.total

@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/conectores',
     name: 'Conectores',
-    component: () => import('@/views/About.vue')
+    component: () => import('@/views/Connector.vue')
   },
   {
     path: '/monitoramento',
